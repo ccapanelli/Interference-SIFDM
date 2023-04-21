@@ -1,6 +1,6 @@
 
-def RandomPhase(resolution, number_modes, debroglie_length, box_size):
-    from numpy import pi, linspace, meshgrid, array, zeros, absolute, exp, cos, sin
+def RandomPhase(resolution, number_modes, debroglie_length, box_size, masked):
+    from numpy import pi, linspace, meshgrid, array, newaxis, zeros, absolute, exp, cos, sin
     from numpy.random import normal, uniform
     from numpy.linalg import norm
     
@@ -35,5 +35,19 @@ def RandomPhase(resolution, number_modes, debroglie_length, box_size):
         psi += exp(-norm(k_vectors, 2) / k_0 ** 2) * exp(1j * thetas[n]) * exp(1j * (k_vectors[0, n] * X + k_vectors[1, n] * Y))
 #             print(thetas[j,i])
         n += 1
-    return psi, absolute(psi)**2
+    
+    # psi2 = absolute(psi)**2
+    
+    if masked:
+        # Mask with Gaussian blur centered at origin
+        for r in linspace(0, x_max/2):
+            width = 1.*x_max
+            opacity = exp(-r**2/(2*width**2))
+            mask = (x[newaxis,:]-x_max/2)**2 + (y[:,newaxis]-y_max/2)**2  > (r)**2 
+            psi[mask] *= opacity
+
+        mask = (x[newaxis,:]-x_max/2)**2 + (y[:,newaxis]-y_max/2)**2  > (x_max/2)**2 
+        psi[mask] = 0    
+    
+    return psi, abs(psi)**2 #psi2
     

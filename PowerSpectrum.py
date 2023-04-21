@@ -1,10 +1,10 @@
 def PowerSpectrum(rho):
-    from numpy import average, absolute, shape, arange, sqrt, cos, sin, pi
+    from numpy import average, absolute, shape, arange, sqrt, cos, sin, pi, sum, linspace,logspace, log10
     from numpy.fft import fft2
     from scipy.interpolate import interp2d
     
     density = rho
-    density = density / average(density) - 1
+    density = density / average(density) #- 1
 
     # Compute the power spectrum P(k) of density
     # P(k) = |F(k)|^2 / (N^2)
@@ -41,17 +41,18 @@ def PowerSpectrum(rho):
     P_int = interp2d(k_x, k_y, P)
 
     # k modes
-    k_modes = sqrt(k_x**2 + k_y**2)
-
+#     k_modes = sqrt(k_x**2 + k_y**2)
+#     k_modes = linspace(0, N, N)
+    k_modes = logspace(0, log10(N), N)
     Power_Spectrum = []
 
     for k in k_modes:
-        thetas = arange(0, 2*pi, 1/(k+1e-3)**(1/4) )
+        thetas = arange(0, 2*pi, 1/(k+1)**(.8)/2 )
         P_theta = []
         for t in thetas:
             P_theta.append( P_int(k*cos(t) , k*sin(t)) )
         Power_Spectrum.append(average(P_theta) )
     k_modes = k_modes[1:]
-    Power_Spectrum = Power_Spectrum[1:]
+    Power_Spectrum = Power_Spectrum[1:]/sum(Power_Spectrum[1:])
     
     return k_modes, Power_Spectrum
