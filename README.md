@@ -42,8 +42,10 @@ from PowerSpectrum import PowerSpectrum
 
 k_modes, Power_Spectrum = PowerSpectrum(input_density)
 ```
-#### Notebooks
-The notebook `Interference-Simulation.ipynb` surves as a general testing ground. You can generate initial conditions, run simulations, compute power spectra, density profiles, and velocity distributuions. This is useful to see what parameters are viable.
+## Notebooks
+`Couplings.ipynb` may be used to determine relevant physical coupling constants and simulation parameters.
+
+`Interference-Simulation.ipynb` serves as a general testing ground. You can generate initial conditions, run simulations, compute power spectra, density profiles, and velocity distributuions. This is useful to see what parameters are viable.
 
 `Automated-Simulation-Runs.ipynb` is where one would run multiple simulations at different couplings and compare the cutoffs.
 
