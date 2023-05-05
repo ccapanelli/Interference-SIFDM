@@ -44,7 +44,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
     #return klin, kx, kSq
 # """
     # Potential
-    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) #/ ( kSq[0,:]  + (kSq[0,:]==0))
+    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / ( kSq[0,:]  + (kSq[0,:]==0))
     V = np.real(np.fft.ifft(Vhat)) + g*np.abs(psi)**2
 
     # number of timesteps
