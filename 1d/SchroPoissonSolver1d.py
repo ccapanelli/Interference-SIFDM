@@ -15,7 +15,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
 
     # Simulation parameters
     # EM: changing N here to match the dimension of the spatial grid.
-    N         = 600 #int(np.sqrt(rho0.size))    # Spatial resolution
+    N         = rho0.size    # Spatial resolution
     t         = 0      # current time of the simulation
     tOut      = 0.0001  # draw frequency
     G         = G_N # Gravitaitonal constant
@@ -44,7 +44,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
     #return klin, kx, kSq
 # """
     # Potential
-    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / ( kSq[0,:]  + (kSq[0,:]==0))
+    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / (kSq + (kSq==0))  #/ ( kSq[0,:]  + (kSq[0,:]==0))
     V = np.real(np.fft.ifft(Vhat)) + g*np.abs(psi)**2
 
     # number of timesteps
@@ -69,7 +69,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
         psi = np.fft.ifft(psihat)
 
         # update potential
-        Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) #/ ( kSq  + (kSq==0))
+        Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / ( kSq  + (kSq==0))
         V = np.real(np.fft.ifft(Vhat)) + g*np.abs(psi)**2
 
         # (1/2) kick
