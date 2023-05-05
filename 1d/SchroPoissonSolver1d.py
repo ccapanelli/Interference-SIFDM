@@ -14,7 +14,8 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
     """ Quantum simulation """
 
     # Simulation parameters
-    N         = int(np.sqrt(rho0.size))    # Spatial resolution
+    # EM: changing N here to match the dimension of the spatial grid.
+    N         = 600 #int(np.sqrt(rho0.size))    # Spatial resolution
     t         = 0      # current time of the simulation
     tOut      = 0.0001  # draw frequency
     G         = G_N # Gravitaitonal constant
@@ -35,23 +36,24 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
 
     # Fourier Space Variables
     klin = 2.0 * np.pi / L * np.arange(-N/2, N/2)
-    kx = klin #, ky = np.meshgrid(klin, klin, copy=False)
+    kx = np.meshgrid(klin, copy=False)
     kx = np.fft.ifftshift(kx)
     #ky = np.fft.ifftshift(ky)
     kSq = kx**2 #+ ky**2
     
-
+    #return klin, kx, kSq
+# """
     # Potential
-    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / ( kSq  + (kSq==0))
+    Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) #/ ( kSq[0,:]  + (kSq[0,:]==0))
     V = np.real(np.fft.ifft(Vhat)) + g*np.abs(psi)**2
 
     # number of timesteps
     Nt = int(np.ceil(tEnd/dt))
     
     # create array to store contrast field at each time step
-    a , b = np.shape(psi)
+    #a , b = np.shape(psi)
 #     rhoAvg = np.zeros((a,b))
-    psiFieldSlices = np.zeros(( Nt_saved , a, b), dtype = complex)
+    psiFieldSlices = np.zeros(( Nt_saved , N), dtype = complex)
     contrastVals = np.zeros((Nt))
 #     phases = np.zeros((Nt , a, b))
     
@@ -67,7 +69,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
         psi = np.fft.ifft(psihat)
 
         # update potential
-        Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) / ( kSq  + (kSq==0))
+        Vhat = -np.fft.fft(4.0*np.pi*G*(np.abs(psi)**2-1.0)) #/ ( kSq  + (kSq==0))
         V = np.real(np.fft.ifft(Vhat)) + g*np.abs(psi)**2
 
         # (1/2) kick
@@ -76,7 +78,7 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
         # record last few field configurations
         
         if i > (Nt/5) and (i)%(Nt/(5*Nt_saved)) < 1. and j < Nt_saved:
-            psiFieldSlices[j,:,:] = psi
+            psiFieldSlices[j,:] = psi
             j = j + 1
             
         #rhoAvg += np.abs(psi)**2
@@ -87,11 +89,11 @@ def fdmSimulation(rho0, normalization, G_N, g_SI, tEnd, dt, Nt_saved):
         # update time
         t += dt
         
-    psiFieldSlices[-1,:,:] = psi
+    psiFieldSlices[-1,:] = psi
 
 
-    return psi, contrastVals, psiFieldSlices[:,:,:]
-
+    return psi, contrastVals, psiFieldSlices[:,:]
+#"""
 
 
 # Function rolls x and y axes of psi field so the solitonic core is centered
