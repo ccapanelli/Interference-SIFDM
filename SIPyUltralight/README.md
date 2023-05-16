@@ -6,6 +6,7 @@ NOTES: version numbers:
 - numexpr 2.7.0
 - llvmlite 0.30.0
  - Numba 0.46.0
+ -- pyfftw 0.11.1
 
 # Prerequisites
 
