@@ -197,7 +197,7 @@ def initsoliton(funct, xarray, yarray, zarray, position, alpha, f, delta_x):
     for index in np.ndindex(funct.shape):
         # Note also that this distfromcentre is here to calculate the distance of every gridpoint from the centre of the soliton, not to calculate the distance of the soliton from the centre of the grid
         distfromcentre = (
-            (80)*(xarray[index[0], 0, 0] - position[0]) ** 2 +
+            (xarray[index[0], 0, 0] - position[0]) ** 2 +
             (yarray[0, index[1], 0] - position[1]) ** 2 +
             (zarray[0, 0, index[2]] - position[2]) ** 2
         ) ** 0.5
