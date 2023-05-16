@@ -1,6 +1,11 @@
-# PyUltraLight
+# SIPyUltraLight
 PyUltraLight Repository
 
+NOTES: version numbers:
+
+- numexpr 2.7.0
+- llvmlite 0.30.0
+ - Numba 0.46.0
 
 # Prerequisites
 
@@ -10,6 +15,8 @@ numpy, numexpr, numba, h5py, pyfftw, time, sys, os, matplotlib, math, multiproce
 
 Note: Errors may be encountered for older matplotlib versions. Please ensure you have the latest version:
 pip install --upgrade matplotlib
+
+
 
 # More information
 
