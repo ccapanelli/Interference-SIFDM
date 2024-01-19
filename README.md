@@ -4,12 +4,12 @@ Study interference in self-interacting fuzzy dark matter system.
 This repo contains three modules:
 
 ### RandomPhaseGenerator.py 
-Use this module to generate a 2d density field from randomly interfering plane waves. E.g.
+Use this module to generate a 2d or 3d density field from randomly interfering plane waves. E.g.
 
 ```
-from RandomPhaseGenerator import RandomPhase
+from RandomPhaseGenerator import RandomPhase2d
 
-density = RandomPhase(resolution, debroglie_length, box_size)
+density = RandomPhase2d(resolution, debroglie_length, box_size)
 ```
 * `resolution` - `dtype = int`- spatial resolution in one dimension.
 * `debroglie_length` - `dtype = float` - as a fraction of the box size. This is not preserved over time!
