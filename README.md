@@ -9,13 +9,11 @@ Use this module to generate a 2d density field from randomly interfering plane w
 ```
 from RandomPhaseGenerator import RandomPhase
 
-density = RandomPhase(resolution, number_modes, debroglie_length, box_size, masked)
+density = RandomPhase(resolution, debroglie_length, box_size)
 ```
 * `resolution` - `dtype = int`- spatial resolution in one dimension.
-* `number_modes` - `dtype = int`- number of k modes to sum over.
 * `debroglie_length` - `dtype = float` - as a fraction of the box size. This is not preserved over time!
 * `box_size` - `dtype = float`- best set to 1. Spatial domain.
-* `masked` - `dtype = bool`- `True` to mask the initial condition via a Gaussian, so the density vanishes towards the edges.
 
 ### SchroPoissonSolver.py
 Use this module to evolve 2d density field forward in time according to Schrodinger-Poisson equations. 
